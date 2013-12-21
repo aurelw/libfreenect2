@@ -78,13 +78,16 @@ int main(int argc, char** argv)
   {
     if (*(uint32_t*) (raw_buffer + header_idx) == 0x00 && *(uint32_t*) (raw_buffer + 4 + header_idx) == 0x009)
     {
+
+      /* Check if the magic is not inside anothers frame data */
+      if (h) {
+        if(header_idx - last_header_idx < h->length) continue;
+      }
+      last_header_idx = header_idx;
+
       h = (Header*) (raw_buffer + header_idx);
 
       std::cerr << header_idx - last_header_idx << " " << h->length + 152 << " " << sizeof(Header) << std::endl;
-
-      if(header_idx - last_header_idx < h->length) continue;
-
-      last_header_idx = header_idx;
 
       std::cerr << header_idx << " seq: " << h->seq << " sub seq: " << h->sub_seq << " " << h->length;
       for(int i = 0; i < 15; ++i)
