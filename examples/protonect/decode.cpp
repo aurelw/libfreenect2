@@ -91,7 +91,8 @@ int main(int argc, char** argv)
         std::cerr << " " << h->fields[i];
       std::cerr << std::endl;
       memset(decoded_buffer, 0, ISO_BUFFER_SIZE);
-      convert_packed_to_16bit(raw_buffer + header_idx - h->length, decoded_buffer, 11, 512 * 424);
+      /* unpack binary data following the frame header */
+      convert_packed_to_16bit(raw_buffer + header_idx + h->length, decoded_buffer, 11, 512 * 424);
       //std::cerr << "start marker: " <<  *((uint8_t*)raw_buffer) << std::endl;
       //std::cerr << "start marker: " <<  *((uint8_t*)decoded_buffer) << std::endl;
       //std::cerr << "decoded values "<< "0x" << std::noshowbase << std::hex << std::setw(2) << std::setfill('0') << ((n - shift) * 8) / 11<< std::dec << std::endl;
